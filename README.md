@@ -77,13 +77,13 @@ Sample test output:
 
 > Fill in once you've implemented scheduling logic.
 
+
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
-
+| Task sorting | `Scheduler.sort_by_time()`, `Scheduler.sort_by_priority()`, `Scheduler.sort_by_duration()` | e.g., by priority, duration; stable multi-key ordering (priority → duration → start time). |
+| Filtering | `Scheduler.filter_by_pet(pet_id)`, `Scheduler.filter_by_completion_status(completed=False)`, `Scheduler.skip_if_time_insufficient(available_time)` | e.g., skip tasks if time runs out; filters applied before scheduling to skip or deprioritize tasks. |
+| Conflict handling | `Scheduler.find_conflicts()`, `Scheduler.mark_conflicts()`, `Scheduler.resolve_conflicts(strategy='shift'|'skip'|'alert')` | e.g., overlapping time slots; detects overlaps and resolves by shifting, skipping, or alerting. |
+| Recurring tasks | `Recurrence.expand(task)`, `Scheduler.apply_recurring_rule(task, rule)` | e.g., daily vs. weekly; expands recurrence rules into concrete instances and supports exceptions/end dates. 
 ## 📸 Demo Walkthrough
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
