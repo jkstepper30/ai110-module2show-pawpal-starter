@@ -7,11 +7,21 @@ User should be able to:
 - schedule a walk
 - track pet care tasks
 
+  Classes I chose and their responsibilities:
+  •	Task: models a single care item (title, optional description, schedule, completion state) and should encapsulate behavior for completing, snoozing, and overdue checks.
+•	Pet: models an owned animal and is responsible for owning/organizing its Task objects (add/remove/query).
+•	Owner: models the human owner and is responsible for creating/removing pets, returning their pets, and receiving notifications.
+•	Scheduler: global coordinator for scheduling, rescheduling, cancelling, querying, and sending reminders for tasks across owners/pets.
+
 
 **b. Design changes**
 
-- Did your design change during implementation?
-- If yes, describe at least one change and why you made it.
+Summary of Changes made: 
+•	Implemented Task methods to handle completion, snoozing, and overdue detection so tasks can be used in workflows and unit-tested.
+
+•	mark_complete: Needed to support recurring tasks and to advance a task to its next occurrence when completed. This prevents lost or duplicate occurrences and models real-world recurring care (e.g., daily medication).
+•	snooze: Adds safe postponement behavior with validation (cannot snooze completed tasks or tasks with no due date, and duration must be positive). Prevents accidental regressions of due_date.
+•	is_overdue: Provides a reliable way to determine if a pending task is past due. Uses the due_date time-zone when present to avoid incorrect comparisons across tz-aware datetimes.
 
 ---
 
