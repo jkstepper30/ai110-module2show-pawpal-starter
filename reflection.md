@@ -2,12 +2,11 @@
 
 ## 1. System Design
 
-**a. Initial design**
-Four classes:
--Pet
--User
--Walk
--PetTask
+User should be able to:
+- add a pet
+- schedule a walk
+- track pet care tasks
+
 
 **b. Design changes**
 
