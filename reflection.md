@@ -40,8 +40,9 @@ Summary of Changes made:
 
 **b. Tradeoffs**
 
-- Describe one tradeoff your scheduler makes.
-- Why is that tradeoff reasonable for this scenario?
+Tradeoff: lightweight conflict detection only compares exact equality of task.due_date (i.e., two tasks conflict if their due_date datetimes are identical). This keeps the data model (single due_date per task) and checks very simple and fast, but it will not detect real-world overlaps when tasks have durations or flexible windows (for example, a 1-hour grooming at 10:00 will not be flagged as conflicting with a 10:30 vaccination). To detect those overlaps you must extend Task to include start/end or duration and replace the equality check with an interval-overlap test (interval tree or O(n log n) sweep), which increases model complexity and runtime/space cost for large schedules.
+
+Why this is reasonable: the current Task model intentionally tracks a single due_date and no duration, so exact-match detection is a cheap and predictable heuristic that suits lightweight reminder workflows and small datasets. Detecting real interval overlaps requires extending Task with start/end or duration fields and using interval-overlap algorithms (interval trees or sweep algorithms), which increases implementation complexity and runtime/space cost. Keep the simpler approach until the application needs true interval scheduling.
 
 ---
 
