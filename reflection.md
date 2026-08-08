@@ -7,7 +7,8 @@ User should be able to:
 - schedule a walk
 - track pet care tasks
 
-  Classes I chose and their responsibilities:
+
+* Classes I chose and their responsibilities:
   •	Task: models a single care item (title, optional description, schedule, completion state) and should encapsulate behavior for completing, snoozing, and overdue checks.
   
 •	Pet: models an owned animal and is responsible for owning/organizing its Task objects (add/remove/query).
