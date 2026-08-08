@@ -65,12 +65,23 @@ pytest
 
 # Run with coverage:
 pytest --cov
+
+#Run tests
+python -m pytest
+
+The test suite verifies core scheduler behavior: task lifecycle (completion and daily recurrence), pet-task associations, chronological sorting of scheduled tasks, and detection of scheduling conflicts.
+
 ```
 
 Sample test output:
 
 ```
-# Paste your pytest output here
+plugins: anyio-4.10.0
+collected 5 items
+
+tests\test_pawpal.py .....                                                                                                                                           [100%]
+
+============================================================================ 5 passed in 0.05s ============================================================================
 ```
 
 ## 📐 Smarter Scheduling
