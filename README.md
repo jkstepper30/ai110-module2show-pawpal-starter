@@ -99,10 +99,34 @@ tests\test_pawpal.py .....                                                      
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
-
+1.	Create an Owner.
+•	Action: call Owner(id, name, ...).
+•	What to look for: owner object created to hold pets and receive notifications.
+2.	Add one or more Pets.
+•	Action: owner.create_pet(name, species, ...).
+•	What to look for: pet ids auto-generated and owner_id set on each Pet.
+3.	Create Tasks and attach them to pets.
+•	Action: Task(...); pet.add_task(task).
+•	What to look for: task.pet_id and task.owner_id populated; duplicate task ids are replaced.
+4.	Schedule a Task for a specific datetime.
+•	Action: sched.schedule_task(task, when).
+•	What to look for: task.due_date set; schedule_task returns a warning string only if there’s a conflict.
+5.	Intentionally create a conflict to show a warning.
+•	Action: schedule two different tasks at the exact same datetime.
+•	What to look for: schedule_task returns a human-readable conflict warning (non-blocking).
+6.	View “Today’s Schedule.”
+•	Action: filter sched.all_tasks for due_date.date() == today and sort by due_date.
+•	What to look for: tasks printed chronologically (sorting by time).
+7.	Snooze or reschedule a Task.
+•	Action: task.snooze(timedelta(...)) or sched.reschedule_task(task_id, new_when).
+•	What to look for: due_date moves forward; reschedule returns conflict warning if applicable.
+8.	Mark a recurring Task complete to advance it.
+•	Action: task.mark_complete() on a task with frequency and due_date.
+•	What to look for: due_date advanced to next occurrence and task reopened for the next cycle.
+9.	Check overdue detection and status.
+•	Action: call task.is_overdue() for tasks with past due_date.
+•	What to look for: True if past due and not completed; comparisons preserve tzinfo when present.
+10.	Remove tasks or pets
+•	Action: pet.remove_task(task_id) or owner.remove_pet(pet_id).
+•	What to look for: item removed if present; no error if id not found.
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
