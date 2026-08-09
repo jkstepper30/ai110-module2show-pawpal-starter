@@ -65,25 +65,36 @@ pytest
 
 # Run with coverage:
 pytest --cov
+
+#Run tests
+python -m pytest
+
+The test suite verifies core scheduler behavior: task lifecycle (completion and daily recurrence), pet-task associations, chronological sorting of scheduled tasks, and detection of scheduling conflicts.
+
 ```
 
 Sample test output:
 
 ```
-# Paste your pytest output here
+plugins: anyio-4.10.0
+collected 5 items
+
+tests\test_pawpal.py .....                                                                                                                                           [100%]
+
+============================================================================ 5 passed in 0.05s ============================================================================
 ```
 
 ## 📐 Smarter Scheduling
 
 > Fill in once you've implemented scheduling logic.
 
+
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
-
+| Task sorting | `Scheduler.sort_by_time()`, `Scheduler.sort_by_priority()`, `Scheduler.sort_by_duration()` | e.g., by priority, duration; stable multi-key ordering (priority → duration → start time). |
+| Filtering | `Scheduler.filter_by_pet(pet_id)`, `Scheduler.filter_by_completion_status(completed=False)`, `Scheduler.skip_if_time_insufficient(available_time)` | e.g., skip tasks if time runs out; filters applied before scheduling to skip or deprioritize tasks. |
+| Conflict handling | `Scheduler.find_conflicts()`, `Scheduler.mark_conflicts()`, `Scheduler.resolve_conflicts(strategy='shift'|'skip'|'alert')` | e.g., overlapping time slots; detects overlaps and resolves by shifting, skipping, or alerting. |
+| Recurring tasks | `Recurrence.expand(task)`, `Scheduler.apply_recurring_rule(task, rule)` | e.g., daily vs. weekly; expands recurrence rules into concrete instances and supports exceptions/end dates. 
 ## 📸 Demo Walkthrough
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
