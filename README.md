@@ -130,7 +130,7 @@ Describe your app in numbered steps so a reader can follow along without watchin
 •	Action: pet.remove_task(task_id) or owner.remove_pet(pet_id).
 •	What to look for: item removed if present; no error if id not found.
 
-# Sample CLI Output
+### Sample CLI Output
 ```
 Today's Schedule
 ------------------
