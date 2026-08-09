@@ -129,4 +129,16 @@ Describe your app in numbered steps so a reader can follow along without watchin
 10.	Remove tasks or pets
 •	Action: pet.remove_task(task_id) or owner.remove_pet(pet_id).
 •	What to look for: item removed if present; no error if id not found.
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
+
+# Sample CLI Output
+```
+Today's Schedule
+------------------
+Time     Pet          Task                         Description                              Status
+------------------------------------------------------------------------------------------------
+08:00    Fido         Morning walk                 30 minute walk around the block          ⚠
+12:30    Mittens      Litter box clean             Scoop and refresh litter                 ⚠
+12:30    Mittens      Quick check                  Quick health check                       ⚠
+20:00    Fido         Evening meds                 Give prescribed medication               ⚠
+
+```
