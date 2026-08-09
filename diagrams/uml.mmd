@@ -1,53 +1,68 @@
 classDiagram
-class Owner {
-  +int id
-  +string name
-  +string email
-  +string phone
-  +List~Pet~ pets
-  +createPet(name,species,breed,age)
-  +removePet(petId)
-  +getPets()
-  +notify(message)
-}
+    class Task {
+        +int id
+        +string title
+        +string description?
+        +string frequency?
+        +datetime due_date?
+        +bool completed
+        +int pet_id?
+        +int owner_id?
+        +mark_complete()
+        +snooze(duration: timedelta)
+        +is_overdue()
+    }
 
-class Pet {
-  +int id
-  +string name
-  +string species
-  +string breed
-  +int age
-  +int ownerId
-  +List~Task~ tasks
-  +addTask(task)
-  +removeTask(taskId)
-  +getTasks()
-}
+    class Pet {
+        +int id
+        +string name
+        +string species?
+        +string breed?
+        +int age?
+        +int owner_id?
+        +List~Task~ tasks
+        +add_task(task: Task)
+        +remove_task(task_id: int)
+        +get_tasks(): List~Task~
+    }
 
-class Task {
-  +int id
-  +string title
-  +string description
-  +string frequency     // e.g., "daily","weekly"
-  +Date dueDate
-  +bool completed
-  +int petId
-  +int ownerId
-  +markComplete()
-  +snooze(duration)
-  +isOverdue(): bool
-}
+    class Owner {
+        +int id
+        +string name
+        +string email?
+        +string phone?
+        +List~Pet~ pets
+        +create_pet(name, species?, breed?, age?): Pet
+        +remove_pet(pet_id: int)
+        +get_pets(): List~Pet~
+        +notify(message: string)
+    }
 
-class Scheduler {
-  +List~Task~ allTasks
-  +scheduleTask(task, datetime)
-  +rescheduleTask(taskId, datetime)
-  +cancelTask(taskId)
-  +getUpcomingTasks(ownerId, days): List~Task~
-  +sendReminders()
-}
+    class Scheduler {
+        +List~Task~ all_tasks
+        +Map~int,Owner~ owners
+        +schedule_task(task: Task, when: datetime): Optional~string~
+        +reschedule_task(task_id: int, when: datetime): Optional~string~
+        +cancel_task(task_id: int)
+        +get_upcoming_tasks(owner_id: int, days: int = 7): List~Task~
+        +sort_by_time(owner_id: int = None, by_full_datetime: bool = false): List~Task~
+        +filter_tasks(completed: bool = None, pet_name: string = None): List~Task~
+        +send_reminders()
+        +register_owner(owner: Owner)
+        +unregister_owner(owner_id: int)
+        +complete_task(task_id: int): Optional~Task~
+        -_find_conflicts(when: datetime, exclude_task_id: int = None): List~Task~
+        -_format_conflict_message(task: Task, conflicts: List~Task~): string
+    }
 
-Owner "1" --> "*" Pet : owns
-Pet "1" --> "*" Task : has
-Scheduler ..> Task : manages
-Scheduler ..> Owner : notifies
+    Owner "1" -- "0..*" Pet : owns
+    Pet "1" -- "0..*" Task : has
+    Scheduler "1" o-- "0..*" Task : manages
+    Scheduler "1" o-- "0..*" Owner : registry
+    App ..> Scheduler : uses
+
+    note right of Scheduler
+      schedule_task/reschedule_task return Optional<string> warnings when
+      lightweight conflicts (exact-datetime equality) are detected.
+      complete_task may append a new Task for recurring tasks.
+    end note
