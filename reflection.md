@@ -93,7 +93,7 @@ Resource and performance limits
 
 **a. What went well**
 
-I am most satisfied with the process of working on the app and being able to understand
+I am most satisfied with the process of working on the app and being able to understand everything.
 
 **b. What you would improve**
 
